@@ -1,7 +1,9 @@
+import FrontPage from "./pages/frontPage";
+
 function App() {
   return (
     <div>
-      App Works!
+      <FrontPage/>
     </div>
   );
 }
