@@ -1,20 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { TokenContext } from '../context/context'
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 
 export default function FrontPage()  {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    
-    // useEffect(() => {
-    //     axios.post('http://localhost:8000/sessions', {
-    //         username: username,
-    //         password: password
-    //     })
-    //         .then(response => {
-    //             console.log(response.data)
-    //         });
-    // }, []);
+    const {token, setToken} = useContext(TokenContext)
     
     const handleUserName = (e) => {
         setUsername(e.target.value)
@@ -23,9 +16,17 @@ export default function FrontPage()  {
         setPassword(e.target.value)
     }
     const handleSubmit = (e) => {
+        e.preventDefault()
         axios.post('http://localhost:8000/sessions', {
             username: username,
-            password: password
+            password: password, 
+        })
+        .then((res) => {
+            setToken(res.data.accessToken)
+            localStorage.setItem("token", token)
+        })
+        .catch((err) => {
+            console.log(err)
         })
     }
     
@@ -34,7 +35,9 @@ export default function FrontPage()  {
             <form>
                 <input type='text' value={username} onChange={handleUserName}/>
                 <input type='password' value={password} onChange={handlePassword}/>
-                <input type='submit' value="login" onClick={handleSubmit}/>
+                <Link to="quotes">
+                <button type='submit' value="login" onClick={handleSubmit}>Log in</button>
+                </Link>
             </form>
         </div>
     )
