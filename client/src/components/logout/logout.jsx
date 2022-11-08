@@ -9,7 +9,7 @@ export default function Logout() {
       <button
         onClick={() => {
           setToken(null);
-          localStorage.setItem("token", token);
+          localStorage.setItem("token", null);
         }}
       >
         <NavLink to="/">Log out</NavLink>

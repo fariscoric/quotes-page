@@ -1,13 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import { TokenContext } from '../context/context'
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 
 export default function FrontPage()  {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const {token, setToken} = useContext(TokenContext)
+    const navigate = useNavigate();
     
     const handleUserName = (e) => {
         setUsername(e.target.value)
@@ -23,7 +24,8 @@ export default function FrontPage()  {
         })
         .then((res) => {
             setToken(res.data.accessToken)
-            localStorage.setItem("token", token)
+            localStorage.setItem("token", res.data.accessToken)
+            navigate("/quotes")
         })
         .catch((err) => {
             console.log(err)
@@ -36,7 +38,7 @@ export default function FrontPage()  {
                 <input type='text' value={username} onChange={handleUserName}/>
                 <input type='password' value={password} onChange={handlePassword}/>
                 <Link to="quotes">
-                <button type='submit' value="login" onClick={handleSubmit}>Log in</button>
+                <input type='submit' value="login" onClick={handleSubmit}/>
                 </Link>
             </form>
         </div>
