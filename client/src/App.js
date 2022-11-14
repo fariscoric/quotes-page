@@ -1,8 +1,9 @@
 import FrontPage from "./pages/frontPage";
+import "./App.css"
 
 function App() {
   return (
-    <div>
+    <div className="body">
       <FrontPage/>
     </div>
   );

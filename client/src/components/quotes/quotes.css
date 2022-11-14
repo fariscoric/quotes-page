@@ -1,0 +1,28 @@
+.quotesContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quoteCont {
+    padding: 20px;
+    height: 150px;
+    display: flex;
+    margin: 20px;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+    color: white;
+    background: rgb(1, 90, 35);
+    border-radius: 10px;
+}
+.quote {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: left;
+    font-size: 30px;
+    text-align: left;
+    padding-left: 30px;
+}

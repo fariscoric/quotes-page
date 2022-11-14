@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { TokenContext } from '../context/context'
 import axios from "axios";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import "./frontPage.css"
 
 
 export default function FrontPage()  {
@@ -33,12 +34,13 @@ export default function FrontPage()  {
     }
     
     return(
-        <div>
-            <form>
-                <input type='text' value={username} onChange={handleUserName}/>
-                <input type='password' value={password} onChange={handlePassword}/>
+        <div className="mainCont">
+            <form className="loginForm">
+                <h1 className="loginTitle">Welcome</h1>
+                <input type='text' value={username} onChange={handleUserName} placeholder="Username" className="inputText"/>
+                <input type='password' value={password} onChange={handlePassword} placeholder="Password" className="inputPassword"/>
                 <Link to="quotes">
-                <input type='submit' value="login" onClick={handleSubmit}/>
+                <input type='submit' value="Log In" onClick={handleSubmit} className="loginButton"/>
                 </Link>
             </form>
         </div>

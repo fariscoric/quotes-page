@@ -1,0 +1,57 @@
+.bigContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-class {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 10px;
+    background-color: rgb(1, 90, 35);
+    border-radius: 15px;
+    padding: 30px;
+}
+
+.form-class label {
+    color: white;
+    font-size: 25px;
+}
+
+.input-author {
+    background: none;
+    border: none;
+    border-bottom: 1px solid white;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 25px;
+}
+
+.input-author:focus {
+    outline: none;
+}
+
+.submit-button {
+    height: 30px;
+    background: rgb(1, 90, 35);
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    outline: 2px solid white;
+}
+
+.input-area {
+    color: white;
+    background: rgb(29, 90, 52);
+    font-size: 25px;
+
+}
+
+.input-area:focus {
+    outline: none;
+}

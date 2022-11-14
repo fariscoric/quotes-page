@@ -1,0 +1,28 @@
+.bigCont {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttonsTop {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.createButton {
+    height: 30px;
+    background: rgb(1, 90, 35);
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.createButton:hover {
+    scale: 1.1;
+    transition: 0.2s;
+}
