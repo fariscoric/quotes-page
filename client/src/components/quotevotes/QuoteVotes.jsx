@@ -23,7 +23,7 @@ export default function QuotesScore({ el }) {
     axios
       .post(`http://localhost:8000/quotes/${el.id}/upvote`, null, {
         headers: {
-          Authorization: "Bearer " + AT,
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -37,7 +37,7 @@ export default function QuotesScore({ el }) {
     axios
       .delete(`http://localhost:8000/quotes/${el.id}/upvote`, {
         headers: {
-          Authorization: "Bearer " + AT,
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -50,7 +50,7 @@ export default function QuotesScore({ el }) {
     axios
       .post(`http://localhost:8000/quotes/${el.id}/downvote`, null, {
         headers: {
-          Authorization: "Bearer " + AT,
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -62,7 +62,7 @@ export default function QuotesScore({ el }) {
     axios
       .delete(`http://localhost:8000/quotes/${el.id}/downvote`, {
         headers: {
-          Authorization: "Bearer " + AT,
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
       .then((res) => {
