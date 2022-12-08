@@ -5,6 +5,16 @@
     align-items: center;
 }
 
+.mantine-MultiSelect-value {
+    background: rgb(1, 90, 35);
+    color: white;
+}
+
+.mantine-MultiSelect-wrapper {
+    border: 1px solid rgb(1, 90, 35);
+    border-radius: 7px;
+}
+
 .quoteCont {
     padding: 20px;
     height: 150px;

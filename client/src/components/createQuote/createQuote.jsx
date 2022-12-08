@@ -22,6 +22,9 @@ export default function CreateQuote() {
         content: inputContent,
         author: inputAuthor,
         tags: inputTag,
+        givenVote: 'none',
+        upvotesCount: 0,
+        downvotesCount: 0,
       },
       {
         headers: {

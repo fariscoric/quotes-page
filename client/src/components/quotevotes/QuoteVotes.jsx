@@ -5,37 +5,27 @@ import axios from "axios";
 import { useEffect } from "react";
 import "./quotevotes.css"
  
-export default function QuotesScore({ el }) {
+export default function QuotesScore({ 
+  id,
+  content,
+  authorName,
+  upvotesCount,
+  downvotesCount,
+  givenVote, }) {
   const { token } = useContext(TokenContext);
   const AT = token;
-  const [upVotes, setUpvotes] = useState(el.upvotesCount);
-  const [voteArrow, setVoteArrow] = useState(el.givenVote);
-  const [downVotes, setDownVotes] = useState(el.downvotesCount);
+  const [upVotes, setUpvotes] = useState(upvotesCount);
+  const [voteArrow, setVoteArrow] = useState(givenVote);
+  const [downVotes, setDownVotes] = useState(downvotesCount);
   const accessToken = "yuim98oq-e275-45a2-bc2e-b3098036d655";
   const numberOfVotes = 100;
-  const groupedVotes = upVotes + downVotes;
-  console.log(groupedVotes);
-  const n = numberOfVotes / groupedVotes;
+  const n = numberOfVotes / (upVotes + downVotes);
   const procentage = upVotes === 0 ? 0 : Math.round(n * upVotes);
   console.log(voteArrow);
   const [votes, setVotes] = useState(procentage);
-  const postUpVote = (el) => {
+  const postUpVote = () => {
     axios
-      .post(`http://localhost:8000/quotes/${el.id}/upvote`, null, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        setUpvotes(res.data.upvotesCount);
-        setVoteArrow(res.data.givenVote);
-        console.log(res.data.givenVote);
-        console.log(el);
-      });
-  };
-  const deleteUpVote = (el) => {
-    axios
-      .delete(`http://localhost:8000/quotes/${el.id}/upvote`, {
+      .post(`http://localhost:8000/quotes/${id}/upvote`, null, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -46,9 +36,21 @@ export default function QuotesScore({ el }) {
         console.log(res.data.givenVote);
       });
   };
-  const postDownVote = (el) => {
+  const deleteUpVote = () => {
     axios
-      .post(`http://localhost:8000/quotes/${el.id}/downvote`, null, {
+      .delete(`http://localhost:8000/quotes/${id}/upvote`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setUpvotes(res.data.upvotesCount);
+        setVoteArrow(res.data.givenVote);
+      });
+  };
+  const postDownVote = () => {
+    axios
+      .post(`http://localhost:8000/quotes/${id}/downvote`, null, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -58,9 +60,9 @@ export default function QuotesScore({ el }) {
         setVoteArrow(res.data.givenVote);
       });
   };
-  const deleteDownVote = (el) => {
+  const deleteDownVote = () => {
     axios
-      .delete(`http://localhost:8000/quotes/${el.id}/downvote`, {
+      .delete(`http://localhost:8000/quotes/${id}/downvote`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -72,21 +74,18 @@ export default function QuotesScore({ el }) {
   };
   const upVoteHandler = () => {
     if (voteArrow === "upvote") {
-      deleteUpVote(el);
+      deleteUpVote(upvotesCount);
     } else if (voteArrow === "none") {
-      postUpVote(el);
+      postUpVote(upvotesCount);
     }
   };
   const downVoteHandler = () => {
     if (voteArrow === "downvote") {
-      deleteDownVote(el);
+      deleteDownVote(downvotesCount);
     } else if (voteArrow === "none") {
-      postDownVote(el);
+      postDownVote(downvotesCount);
     }
   };
-  useEffect(() => {
-    setVotes(procentage);
-  }, [procentage]);
   return (
     <div className="votes-count">
       <div>
@@ -125,7 +124,7 @@ export default function QuotesScore({ el }) {
                 : "",
           }}
         >
-          {votes}%
+          {procentage}%
         </div>
         <div className="vote">
           {upVotes}/{downVotes}

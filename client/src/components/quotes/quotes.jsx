@@ -12,10 +12,11 @@ export default function Quotes() {
     const {token, setToken} = useContext(TokenContext)
     const [quotes, setQuotes] = useState([])
     const [tags, setTags] = useState([])
-    const [tag, setTag] = useState('')
+    const [tag, setTag] = useState([])
+    const tagString = tag.toString();
     const accessToken = token;
     const getApi = async() => {
-        axios.get(`http://localhost:8000/quotes?tags=${tag}`, {
+        axios.get(`http://localhost:8000/quotes?tags=${tagString}`, {
             headers: {Authorization: 'Bearer '+ localStorage.getItem("token")}})
         .then((res) => {
             console.log(res.data.quotes)
@@ -34,6 +35,8 @@ export default function Quotes() {
         getTags();
     },[tag])
 
+
+
     const data = tags.map((e) => {
         return {
             value: e,
@@ -48,13 +51,20 @@ export default function Quotes() {
             <MultiSelect
         onChange={setTag}
         data={data}
+        value={tag}
         label="Filter by tags"
         placeholder="Tags"
     />
             {quotes.map((e) => (
                 <div className="quoteCont">
                 <QuotesScore
-                el={e}
+                key={e.id}
+                content={e.content}
+                authorName={e.author}
+                upvotesCount={e.upvotesCount}
+                downvotesCount={e.downvotesCount}
+                givenVote={e.givenVote}
+                id={e.id}
                 />
                 <div className="quote">{e.content}</div>
                 </div>
