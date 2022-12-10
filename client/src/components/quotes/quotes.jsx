@@ -57,6 +57,7 @@ export default function Quotes() {
     />
             {quotes.map((e) => (
                 <div className="quoteCont">
+                <div>
                 <QuotesScore
                 key={e.id}
                 content={e.content}
@@ -66,7 +67,11 @@ export default function Quotes() {
                 givenVote={e.givenVote}
                 id={e.id}
                 />
-                <div className="quote">{e.content}</div>
+                </div>
+                <div className="quoteAuthor">
+                <div className="quote">"{e.content}"</div>
+                <div className="author">{e.author}</div>
+                </div>
                 </div>
             ))}
         </div>
