@@ -8,12 +8,14 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function FrontPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { token, setToken } = useContext(TokenContext);
   const navigate = useNavigate();
+  const [ login, setLogin ] = useState(true)
 
   const handleUserName = (e) => {
     setUsername(e.target.value);
@@ -32,11 +34,16 @@ export default function FrontPage() {
         setToken(res.data.accessToken);
         localStorage.setItem("token", res.data.accessToken);
         navigate("/quotes");
+        setLogin(true);
+        console.log(login)
       })
       .catch((err) => {
-        console.log(err);
+        setLogin(false)
+        toast.error('Failed login')
+        console.log(login)
       });
   };
+
 
   const theme = createTheme({
     palette: {
@@ -47,8 +54,10 @@ export default function FrontPage() {
   });
 
   return (
+
     <div className="mainCont">
       <ThemeProvider theme={theme}>
+        <Toaster/>
       <Box
       className="boxCont"
         component="form"
@@ -58,28 +67,32 @@ export default function FrontPage() {
         noValidate
         autoComplete="off"
       >
+
         <TextField
+        sx={{ input: { color: 'white' } }}
         labelClassName="placeholderText"
         fullWidth
           id="outlined"
           label="Username"
-          color="primary"
+          color= {login ? "primary" : "error"}
           value={username}
           onChange={handleUserName}
           focused
         />
         <TextField
+          sx={{ input: { color: 'white' } }}
+          className="password"
           id="outlined-password-input"
           label="Password"
           type="password"
           autoComplete="current-password"
-          color="primary"
+          color= {login ? "primary" : "error"}
           value={password}
           onChange={handlePassword}
           focused
         />
-        <Link to="quotes">
-          <Button className="loginButton" variant="contained" color="success" onClick={handleSubmit}>
+        <Link to="quotes" style={{textDecoration: 'none'}}>
+          <Button type="submit" className="loginButton" variant="contained" color="success" onClick={handleSubmit}>
             Log In
           </Button>
         </Link>

@@ -4,7 +4,7 @@ import { TokenContext } from "../../context/context";
 import axios from "axios";
 import "./createQuote.css"
  
-export default function CreateQuote() {
+export default function CreateQuote({close}) {
   const navigate = useNavigate();
   const { token } = useContext(TokenContext);
   const AT = token;
@@ -79,7 +79,8 @@ export default function CreateQuote() {
           onClick={() => (
             setInputContent(content),
             setInputAuthor(author),
-            setInputTag(tags.split(","))
+            setInputTag(tags.split(",")),
+            close(false)
           )}
         >
           Add quote

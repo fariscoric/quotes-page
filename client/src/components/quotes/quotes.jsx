@@ -4,7 +4,8 @@ import { useState, useEffect, useContext } from "react";
 import { TokenContext } from '../../context/context'
 import QuotesScore from "../quotevotes/QuoteVotes";
 import "./quotes.css"
-import { MultiSelect } from '@mantine/core';
+import { MultiSelect, Select } from '@mantine/core';
+import Modal from '@mui/material/Modal';
 
 
 
@@ -13,10 +14,11 @@ export default function Quotes() {
     const [quotes, setQuotes] = useState([])
     const [tags, setTags] = useState([])
     const [tag, setTag] = useState([])
+    const [sortedBy, setSortedBy] = useState('upvotesCount')
     const tagString = tag.toString();
     const accessToken = token;
     const getApi = async() => {
-        axios.get(`http://localhost:8000/quotes?tags=${tagString}`, {
+        axios.get(`http://localhost:8000/quotes?tags=${tagString}&sortBy=${sortedBy}&sortDirection=${sortDirection}`, {
             headers: {Authorization: 'Bearer '+ localStorage.getItem("token")}})
         .then((res) => {
             console.log(res.data.quotes)
@@ -33,9 +35,10 @@ export default function Quotes() {
     useEffect(() => {
         getApi();
         getTags();
-    },[tag])
+    },[tag, sortedBy])
 
-
+    const sortDirection =
+    sortedBy === "author" || sortedBy === "content" ? "asc" : "desc";
 
     const data = tags.map((e) => {
         return {
@@ -44,6 +47,13 @@ export default function Quotes() {
         }
     })
 
+    const dataSort = [
+        { value: "author", label: "Author" },
+        { value: "content", label: "Content" },
+        { value: "createdAt", label: "Newest first" },
+        { value: "downvotesCount", label: "Downvotes" },
+        { value: "upvotesCount", label: "Upvotes" },
+      ];
     
     
     return (
@@ -55,6 +65,13 @@ export default function Quotes() {
         label="Filter by tags"
         placeholder="Tags"
     />
+        <Select
+      label="Sort by"
+      placeholder="Sort by"
+      value={sortedBy}
+      clearable
+      data={dataSort}
+      onChange={setSortedBy}/>
             {quotes.map((e) => (
                 <div className="quoteCont">
                 <div>
