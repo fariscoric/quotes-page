@@ -5,20 +5,22 @@ import { TokenContext } from '../../context/context'
 import QuotesScore from "../quotevotes/QuoteVotes";
 import "./quotes.css"
 import { MultiSelect, Select } from '@mantine/core';
-import Modal from '@mui/material/Modal';
+import Pagination from '@mui/material/Pagination';
 
 
 
-export default function Quotes() {
+export default function Quotes({ openState }) {
     const {token, setToken} = useContext(TokenContext)
     const [quotes, setQuotes] = useState([])
     const [tags, setTags] = useState([])
     const [tag, setTag] = useState([])
-    const [sortedBy, setSortedBy] = useState('upvotesCount')
+    const [page, setPage] = useState(1)
+    const [sortedBy, setSortedBy] = useState('createdAt')
+    const pageSize = 5;
     const tagString = tag.toString();
     const accessToken = token;
     const getApi = async() => {
-        axios.get(`http://localhost:8000/quotes?tags=${tagString}&sortBy=${sortedBy}&sortDirection=${sortDirection}`, {
+        axios.get(`http://localhost:8000/quotes?tags=${tagString}&sortBy=${sortedBy}&sortDirection=${sortDirection}&page=${page}&pageSize=${pageSize}`, {
             headers: {Authorization: 'Bearer '+ localStorage.getItem("token")}})
         .then((res) => {
             console.log(res.data.quotes)
@@ -35,7 +37,7 @@ export default function Quotes() {
     useEffect(() => {
         getApi();
         getTags();
-    },[tag, sortedBy])
+    },[tag, sortedBy, openState])
 
     const sortDirection =
     sortedBy === "author" || sortedBy === "content" ? "asc" : "desc";
@@ -91,6 +93,7 @@ export default function Quotes() {
                 </div>
                 </div>
             ))}
+            <Pagination/>
         </div>
     )
 }

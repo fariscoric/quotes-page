@@ -3,8 +3,10 @@ import { useNavigate, Link } from "react-router-dom";
 import { TokenContext } from "../../context/context";
 import axios from "axios";
 import "./createQuote.css"
+import toast, { Toaster } from 'react-hot-toast';
+
  
-export default function CreateQuote({close}) {
+export default function CreateQuote({close, toasted}) {
   const navigate = useNavigate();
   const { token } = useContext(TokenContext);
   const AT = token;
@@ -14,8 +16,10 @@ export default function CreateQuote({close}) {
   const [inputContent, setInputContent] = useState();
   const [inputAuthor, setInputAuthor] = useState();
   const [inputTag, setInputTag] = useState();
+
+  const notify = () => toast('Successfully added quote')
+
   const addQuote = () => {
-    // const access_token = "yuim98oq-e275-45a2-bc2e-b3098036d655";
     axios.post(
       `http://localhost:8000/quotes`,
       {
@@ -34,12 +38,17 @@ export default function CreateQuote({close}) {
     )
     .then((response) => {
       if(response.data) {
-        navigate("/quotes")
       }
+    })
+    .then(() => {
+      close(false)
+      toasted(true)
     })
   };
   return (
     <div className="bigContainer">
+      <Toaster/>
+      <button onClick={() => (close(false))}>X</button>
       <form
         className="form-class"
         onSubmit={(e) => (
@@ -47,6 +56,7 @@ export default function CreateQuote({close}) {
           addQuote()
         )}
       >
+        
         <label>Enter the author</label>
         <input
           className="input-author"
@@ -79,8 +89,7 @@ export default function CreateQuote({close}) {
           onClick={() => (
             setInputContent(content),
             setInputAuthor(author),
-            setInputTag(tags.split(",")),
-            close(false)
+            setInputTag(tags.split(","))
           )}
         >
           Add quote
