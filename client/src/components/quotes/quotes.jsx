@@ -4,8 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { TokenContext } from '../../context/context'
 import QuotesScore from "../quotevotes/QuoteVotes";
 import "./quotes.css"
-import { MultiSelect, Select } from '@mantine/core';
-import Pagination from '@mui/material/Pagination';
+import { MultiSelect, Select, Pagination } from '@mantine/core';
 
 
 
@@ -15,8 +14,10 @@ export default function Quotes({ openState }) {
     const [tags, setTags] = useState([])
     const [tag, setTag] = useState([])
     const [page, setPage] = useState(1)
+    const [quoteCount, setQuoteCount] = useState('1')
     const [sortedBy, setSortedBy] = useState('createdAt')
     const pageSize = 5;
+    const pageCount = Math.ceil(quoteCount / pageSize);
     const tagString = tag.toString();
     const accessToken = token;
     const getApi = async() => {
@@ -24,7 +25,9 @@ export default function Quotes({ openState }) {
             headers: {Authorization: 'Bearer '+ localStorage.getItem("token")}})
         .then((res) => {
             console.log(res.data.quotes)
-            setQuotes(res.data.quotes)})
+            setQuotes(res.data.quotes)
+            setQuoteCount(res.data.quotesCount)
+        })
     }
     const getTags = async() => {
         axios.get('http://localhost:8000/tags', {
@@ -37,7 +40,11 @@ export default function Quotes({ openState }) {
     useEffect(() => {
         getApi();
         getTags();
-    },[tag, sortedBy, openState])
+    },[tag, sortedBy, openState, page])
+
+    useEffect(() => {
+        setPage(1);
+    },[tag, sortedBy])
 
     const sortDirection =
     sortedBy === "author" || sortedBy === "content" ? "asc" : "desc";
@@ -56,7 +63,7 @@ export default function Quotes({ openState }) {
         { value: "downvotesCount", label: "Downvotes" },
         { value: "upvotesCount", label: "Upvotes" },
       ];
-    
+
     
     return (
         <div className="quotesContainer">
@@ -93,7 +100,13 @@ export default function Quotes({ openState }) {
                 </div>
                 </div>
             ))}
-            <Pagination/>
+            <Pagination
+            total ={pageCount}
+            onChange={setPage}
+            onClick={window.scrollTo(0, 0)}
+            page={page}
+            color="teal"
+            />
         </div>
     )
 }

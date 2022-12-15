@@ -6,7 +6,7 @@ import "./createQuote.css"
 import toast, { Toaster } from 'react-hot-toast';
 
  
-export default function CreateQuote({close, toasted}) {
+export default function CreateQuote({close, notification}) {
   const navigate = useNavigate();
   const { token } = useContext(TokenContext);
   const AT = token;
@@ -16,8 +16,6 @@ export default function CreateQuote({close, toasted}) {
   const [inputContent, setInputContent] = useState();
   const [inputAuthor, setInputAuthor] = useState();
   const [inputTag, setInputTag] = useState();
-
-  const notify = () => toast('Successfully added quote')
 
   const addQuote = () => {
     axios.post(
@@ -42,7 +40,11 @@ export default function CreateQuote({close, toasted}) {
     })
     .then(() => {
       close(false)
-      toasted(true)
+    })
+    .then(() => {
+      console.log("bilo sta")
+      notification("Successfully added quote")
+      console.log(notification)
     })
   };
   return (

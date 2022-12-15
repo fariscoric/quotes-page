@@ -5,28 +5,29 @@ import "./homePage.css"
 import Modal from '@mui/material/Modal';
 import { useState, useEffect } from 'react';
 import CreateQuote from "../components/createQuote/createQuote"
-import { toast } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function HomePage() {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
-    const [addedQuote, setAddedQuote] = useState(false)
+    const [notify, setNotify] = useState("Logged in successfully")
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const notify = () => {
-        toast('Successfully added quote')
+    const handleNotify = () => {
+        toast.success(`${notify}`)
     }
 
-    const notifyFalse = () => {
-        toast.error('Failed to add quote')
-    }
+
+    useEffect(() => {
+        handleNotify()
+    },[notify])
 
     return (
         <div className='bigCont'>
 
-            {addedQuote ? notify() : notifyFalse()}
-
+            <Toaster/>
             <div className='buttonsTop'>
             <Logout/>
             <button className="createButton"
@@ -37,7 +38,7 @@ export default function HomePage() {
             onClose={handleClose}>
                 <div>
                 <CreateQuote
-                toast={setAddedQuote}
+                notification={setNotify}
                 close={setOpen}/>
                 </div>
             </Modal>
