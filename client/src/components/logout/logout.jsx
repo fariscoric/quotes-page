@@ -1,23 +1,26 @@
 import { useContext } from "react";
 import { TokenContext } from "../../context/context";
-import { NavLink, useNavigate } from "react-router-dom";
-import "./logout.css"
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+
 
 export default function Logout() {
   const { token, setToken } = useContext(TokenContext);
   const navigate = useNavigate();
   return (
     <div>
-      <button
+      <Button
+      variant="contained" 
+      color="success"
       className="logoutButton"
-        onClick={() => {
-          setToken(null);
-          localStorage.setItem("token", null);
-          navigate("/")
+      onClick={() => {
+        setToken(null);
+        localStorage.setItem("token", null);
+        navigate("/")
         }}
       >
         Log Out
-        </button>
+        </Button>
     </div>
   )
 }

@@ -67,6 +67,7 @@ export default function Quotes({ openState }) {
     
     return (
         <div className="quotesContainer">
+            <div className="sortingClass">
             <MultiSelect
         onChange={setTag}
         data={data}
@@ -81,6 +82,7 @@ export default function Quotes({ openState }) {
       clearable
       data={dataSort}
       onChange={setSortedBy}/>
+      </div>
             {quotes.map((e) => (
                 <div className="quoteCont">
                 <div>
@@ -105,7 +107,14 @@ export default function Quotes({ openState }) {
             onChange={setPage}
             onClick={window.scrollTo(0, 0)}
             page={page}
-            color="teal"
+            radius="xl"
+            styles={(theme) => ({
+                item: {
+                  '&[data-active]': {
+                    backgroundImage: theme.fn.gradient({ from: 'green', to: 'lime' }),
+                  },
+                },
+              })}
             />
         </div>
     )

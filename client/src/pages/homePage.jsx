@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import { useState, useEffect } from 'react';
 import CreateQuote from "../components/createQuote/createQuote"
 import toast, { Toaster } from 'react-hot-toast';
+import Button from '@mui/material/Button'
 
 
 export default function HomePage() {
@@ -30,9 +31,11 @@ export default function HomePage() {
             <Toaster/>
             <div className='buttonsTop'>
             <Logout/>
-            <button className="createButton"
+            <Button className="createButton"
             onClick={handleOpen}
-            >Create your own quote</button>
+            variant="contained" 
+            color="success"
+            >Create your own quote</Button>
             <Modal
             open={open}
             onClose={handleClose}>
